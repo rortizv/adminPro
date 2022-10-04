@@ -1,13 +1,14 @@
 import { Component, Input } from '@angular/core';
-import { MultiDataSet, Label, Color } from 'ng2-charts.js';
+import { MultiDataSet, Label, Color } from 'ng2-charts';
 
 @Component({
   selector: 'app-donut',
   templateUrl: './donut.component.html',
-  styleUrls: ['./donut.component.css']
+  styles: [
+  ]
 })
-export class DonutComponent {
-
+export class DonutComponent{
+  
   @Input() title: string = 'Sin titulo';
 
   @Input('labels') doughnutChartLabels: Label[] = ['Label1', 'Label2', 'Label2'];
@@ -18,6 +19,5 @@ export class DonutComponent {
   public colors: Color[] = [
     { backgroundColor: [ '#6857E6','#009FEE','#F02059' ] }
   ];
-
 
 }

@@ -20,7 +20,7 @@ export class UsuarioService {
   }
 
   login(formData: LoginForm) {
-    return this.http.post(`${this.base_url}/usuarios`, formData);
+    return this.http.post(`${this.base_url}/login`, formData);
   }
 
 }

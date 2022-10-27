@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
+import { Router } from '@angular/router';
 import { catchError, map, tap } from 'rxjs/operators';
 
 import { environment } from 'src/environments/environment';
@@ -14,8 +15,20 @@ import { Observable, of } from 'rxjs';
 export class UsuarioService {
 
   public base_url: string = environment.base_url;
+  public auth2: any;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient,
+    private router: Router,
+    private ngZone: NgZone) { }
+
+  logout() {
+    localStorage.removeItem('token');
+    this.auth2.signOut().then(() => {
+      this.ngZone.run(() => {
+        this.router.navigateByUrl('/login');
+      })
+    });
+  }
 
   validarToken(): Observable<boolean> {
     const token = localStorage.getItem('token') || '';
@@ -29,7 +42,7 @@ export class UsuarioService {
       }),
       map(resp => true),
       // Atrapamos el error que sucede arriba y retorna un nuevo observable con false
-      catchError( error => of(false))
+      catchError(error => of(false))
     )
   }
 
@@ -47,15 +60,6 @@ export class UsuarioService {
         localStorage.setItem('token', resp.token)
       })
     )
-  }
-
-  loginGoogle(token: string) { 
-    return this.http.post(`${this.base_url}/login/google`, {token})
-      .pipe(
-        tap((resp: any) => {
-          localStorage.setItem('token', resp.token)
-        })
-      )
   }
 
 }

@@ -1,22 +1,19 @@
-import { Component, OnInit, NgZone, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
 import { FormGroup, Validators, FormControl } from '@angular/forms';
 
+import { Router } from '@angular/router';
 import { UsuarioService } from 'src/app/services/usuario.service';
 import { LoginForm } from 'src/app/interfaces/login-form.interface';
 import Swal from 'sweetalert2';
-import { Router } from '@angular/router';
 
-declare const google: any;
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent implements OnInit, AfterViewInit {
-
-  @ViewChild('googleBtn') googleBtn: ElementRef;
-
+export class LoginComponent {
+  
   public formSubmitted = false;
   public auth2: any;
 
@@ -26,44 +23,16 @@ export class LoginComponent implements OnInit, AfterViewInit {
     remember: new FormControl(false)
   });
 
-  constructor(private usuarioService: UsuarioService,
-              private router: Router) { }
-  
-  
-  ngOnInit(): void {
-    
-  }
-  
-  ngAfterViewInit(): void {
-    this.googleInit();
-  }
-
-  googleInit() {
-    google.accounts.id.initialize({
-      client_id: "246426062891-n7ev7354t4hbre8e38i95as2hcujgomg.apps.googleusercontent.com",
-      callback: response => this.handleCredentialResponse(response)
-    });
-    google.accounts.id.renderButton(
-      this.googleBtn.nativeElement,
-      { theme: "outline", size: "large" }  // customization attributes
-    );
-  }
-
-  handleCredentialResponse(response: any) {
-    console.log("Encoded JWT ID token: " + response.credential);
-    this.usuarioService.loginGoogle(response.credential).subscribe(
-      resp => {
-        this.router.navigateByUrl('/')
-      }
-    )
-  }
+  constructor(private router: Router,
+              private ngZone: NgZone,
+              private usuarioService: UsuarioService) { }
 
   login() {
     if (this.loginForm.invalid) {
       return;
     } else {
       const data: LoginForm = {
-        email:    this.loginForm.get('email')!.value,
+        email: this.loginForm.get('email')!.value,
         password: this.loginForm.get('password')!.value,
         remember: this.loginForm.get('remember')!.value
       };
@@ -73,19 +42,12 @@ export class LoginComponent implements OnInit, AfterViewInit {
         } else {
           localStorage.removeItem('email');
         }
+        // Navegate to dashboard if auth is OK
+        this.router.navigateByUrl('/');
       }, (err) => {
         Swal.fire('Error', err.error.message, 'error')
       });
     }
   }
 
-  attachSignin(element) {
-    this.auth2.attachClickHandler( element, {},
-      (googleUser) => {
-        const id_token = googleUser.getAuthResponse().id_token;
-        this.usuarioService.loginGoogle(id_token).subscribe();
-      }, (error) => {
-        alert(JSON.stringify(error, undefined, 2));
-      });
-  }
 }

@@ -32,7 +32,7 @@ export class RegisterComponent {
       return;
     }
 
-    this.usuarioService.crearusuario(this.registerForm.value)
+    this.usuarioService.crearUsuario(this.registerForm.value)
       .subscribe(resp => {
         console.log('Usuario creado satisfactoriamente', resp);
       }, (err) => {

@@ -1,15 +1,23 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { Usuario } from 'src/app/models/usuario.model';
+import { UsuarioService } from 'src/app/services/usuario.service';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent {
 
-  constructor() { }
+  public imgUrl = '';
+  public usuario: Usuario;
 
-  ngOnInit(): void {
+  constructor(private usuarioService: UsuarioService) {
+    this.usuario = usuarioService.usuario;
+  }
+
+  logout() {
+    this.usuarioService.logout();
   }
 
 }

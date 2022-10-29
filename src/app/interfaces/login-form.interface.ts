@@ -1,5 +1,5 @@
 export interface LoginForm {
-    email: string;
-    password: string;
-    remember: boolean;
+    email: string | null | undefined;
+    password: string | null | undefined;
+    remember?: boolean | null | undefined;
 }

@@ -49,6 +49,8 @@ export class PerfilComponent implements OnInit {
 
     if (!file) { return; }
     const reader = new FileReader();
+    reader.readAsDataURL(file);
+
     reader.onloadend = () => {
       this.imgTemp = reader.result;
     }
@@ -56,7 +58,12 @@ export class PerfilComponent implements OnInit {
 
   subirImagen() {
     this.fileUploadService.actualizarFoto(this.imgUpload, 'usuarios', this.usuario.uid!)
-      .then(img => this.usuario.img = img);
+      .then( img => {
+        this.usuario.img = img;
+        Swal.fire('Guardado', 'Imagen de usuario actualizada satisfactoriamente', 'success');
+      }).catch( err => {
+        Swal.fire('Error', err.error.msg, 'error');
+      })
   }
 
 }

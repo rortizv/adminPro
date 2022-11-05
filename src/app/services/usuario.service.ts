@@ -9,6 +9,7 @@ import { RegisterForm } from './../interfaces/register-form.interface';
 import { LoginForm } from '../interfaces/login-form.interface';
 
 import { Usuario } from '../models/usuario.model';
+import { UsuarioForm } from '../interfaces/usuario-form.interface';
 
 
 @Injectable({
@@ -24,6 +25,14 @@ export class UsuarioService {
               private router: Router,
               private ngZone: NgZone) { }
 
+  get token(): string {
+    return localStorage.getItem('token') || '';
+  }
+
+  get uid(): string {
+    return this.usuario.uid || '';
+  }
+
   logout() {
     localStorage.removeItem('token');
     this.auth2.signOut().then(() => {
@@ -34,10 +43,10 @@ export class UsuarioService {
   }
 
   validarToken(): Observable<boolean> {
-    const token = localStorage.getItem('token') || '';
+    
     return this.http.get(`${this.base_url}/login/renew`, {
       headers: {
-        'x-token': token
+        'x-token': this.token
       }
     }).pipe(
       tap((resp: any) => {
@@ -59,6 +68,19 @@ export class UsuarioService {
         localStorage.setItem('token', resp.token)
       })
     )
+  }
+
+  actualizarPerfil(usuario: UsuarioForm) {
+    usuario = {
+      ...usuario,
+      role: this.usuario.role
+    };
+
+    return this.http.put(`${this.base_url}/usuarios/${this.uid}`, usuario, { 
+      headers: {
+        'x-token': this.token
+      }
+    });
   }
 
   login(formData: LoginForm) {

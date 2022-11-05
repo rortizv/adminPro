@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Usuario } from 'src/app/models/usuario.model';
 import { UsuarioService } from 'src/app/services/usuario.service';
+import { FileUploadService } from 'src/app/services/file-upload.service';
+import { Usuario } from 'src/app/models/usuario.model';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -13,9 +14,12 @@ export class PerfilComponent implements OnInit {
 
   public perfilForm: FormGroup;
   public usuario: Usuario;
+  public imgUpload: File;
+  public imgTemp: any = null;
 
   constructor(private formBuilder: FormBuilder,
-              private usuarioService: UsuarioService) { 
+              private usuarioService: UsuarioService,
+              private fileUploadService: FileUploadService) { 
                 this.usuario = usuarioService.usuario;
               }
 
@@ -38,6 +42,21 @@ export class PerfilComponent implements OnInit {
           Swal.fire("ERROR", "Ha ocurrido un error al intentar actualizar el usuario", "error");
         }
       })
+  }
+
+  cambiarImagen(file: any) {
+    this.imgUpload = file;
+
+    if (!file) { return; }
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      this.imgTemp = reader.result;
+    }
+  }
+
+  subirImagen() {
+    this.fileUploadService.actualizarFoto(this.imgUpload, 'usuarios', this.usuario.uid!)
+      .then(img => this.usuario.img = img);
   }
 
 }

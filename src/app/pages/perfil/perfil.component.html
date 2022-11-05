@@ -40,16 +40,30 @@
     <div class="col-md-6">
         <div class="card">
             <div class="card-body">
+                
                 <h4 class="card-title">Avatar</h4>
                 <h6 class="card-subtitle">Imagen del usuario</h6>
-                <img src="">
-                <input type="file">
+
+                <div class="text-center">
+                    <img [src]="usuario.imagenUrl" class="img-avatar">
+                </div>
+
+                <input
+                    type="file"
+                    (change)="cambiarImagen($event)">
+
                 <br>
                 <br>
-                <button type="button" class="btn btn-success waves-effect waves-light m-r-10">
+
+                <button
+                    type="button"
+                    [disabled]="!imgUpload"
+                    (click)="subirImagen()"
+                    class="btn btn-success waves-effect waves-light m-r-10">
                     <i class="fa fa-save"></i>
                     Cargar imagen
                 </button>
+
             </div>
         </div>
     </div>

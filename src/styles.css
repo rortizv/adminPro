@@ -4,3 +4,18 @@
     -webkit-animation-fill-mode: both;
     animation-fill-mode: both
 }
+
+.img-avatar {
+    height: 200px;
+    width: 200px;
+}
+
+.w100 {
+    width: 100px;
+}
+
+.avatar {
+    border: 1p solid gray;
+    border-radius: 100%;
+    width: 30px;
+}

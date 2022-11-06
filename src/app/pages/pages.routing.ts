@@ -10,6 +10,7 @@ import { PromisesComponent } from './promises/promises.component';
 import { RxjsComponent } from './rxjs/rxjs.component';
 import { AuthGuard } from '../guards/auth.guard';
 import { PerfilComponent } from './perfil/perfil.component';
+import { UsuariosComponent } from './mantenimientos/usuarios/usuarios.component';
 
 
 const routes: Routes = [
@@ -20,11 +21,14 @@ const routes: Routes = [
         children: [
             { path: '', component: DashboardComponent, data: { title: 'Dashboard'} },
             { path: 'progress', component: ProgressComponent, data: { title: 'ProgressBar'} },
-            { path: 'grafica1', component: Grafica1Component, data: { title: 'Graphic 1'} },
+            { path: 'grafica1', component: Grafica1Component, data: { title: 'Gráfica 1'} },
             { path: 'account-settings', component: AccountSettingsComponent, data: { title: 'Account Settings'} },
-            { path: 'promises', component: PromisesComponent, data: { title: 'Promises'} },
+            { path: 'promesas', component: PromisesComponent, data: { title: 'Promesas'} },
             { path: 'rxjs', component: RxjsComponent, data: { title: 'RxJs'} },
-            { path: 'perfil', component: PerfilComponent, data: { title: 'Perfil de Usuario'} }
+            { path: 'perfil', component: PerfilComponent, data: { title: 'Perfil de Usuario'} },
+            
+            // Mantenimientos
+            { path: 'usuarios', component: UsuariosComponent, data: { title: 'Usuario de aplicación'} },
         ]
     }
 ];

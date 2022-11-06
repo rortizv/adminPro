@@ -8,7 +8,7 @@
     </div>
 </div>
 
-<div class="row animated fadeIn fast">
+<div *ngIf="cargando" class="row animated fadeIn fast">
     <div class="col-12">
         <div class="alert alert-info text-center">
             <h4 class="alert-heading">Cargando...</h4>
@@ -18,7 +18,7 @@
     </div>
 </div>
 
-<div class="row">
+<div *ngIf="!cargando" class="row animated fadeIn fast">
     <div class="col-12">
         <div class="card">
             <div class="card-body">
@@ -28,23 +28,28 @@
                     <table class="table table-bordered">
                         <thead>
                             <tr>
-                                <th>Avatar</th>
-                                <th>Email</th>
-                                <th>Nombre</th>
-                                <th>Role</th>
-                                <th>Auth</th>
-                                <th class="text-nowrap">Acciones</th>
+                                <th class="w100 text-center">Avatar</th>
+                                <th class="text-center">Email</th>
+                                <th class="text-center">Nombre</th>
+                                <th class="w100 text-center">Role</th>
+                                <th class="w100 text-center">Auth</th>
+                                <th class="w100 text-center text-nowrap">Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr *ngFor="let usuario of usuarios">
-                                <td>XXX</td>
+                                <td class="text-center">
+                                    <img [src]="usuario.imagenUrl" alt="Avatar de usuario" class="avatar">
+                                </td>
                                 <td>{{usuario.email}}</td>
                                 <td>{{usuario.nombre}}</td>
                                 <td>{{usuario.role}}</td>
-                                <td>Email</td>
+                                <td class="text-center">
+                                    <span *ngIf="usuario.google" class="label label-danger">Google</span>
+                                    <span *ngIf="!usuario.google" class="label label-info">Email</span>
+                                </td>
 
-                                <td class="text-nowrap">
+                                <td class="text-nowrap text-center">
                                     <a 
                                         href="#"
                                         data-toggle="tooltip"

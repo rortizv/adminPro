@@ -92,4 +92,15 @@ export class UsuariosComponent implements OnInit {
     })
   }
 
+  cambiarRole(usuario: Usuario) {
+    this.usuarioService.guardarUsuario(usuario)
+      .subscribe(resp => {
+        Swal.fire(
+          'Role modificado!',
+          'Ha modificado el Role de usuario satisfactoriamente',
+          'success'
+        )
+      });
+  }
+
 }

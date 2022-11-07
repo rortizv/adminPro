@@ -36,7 +36,7 @@
                                 <th class="w100 text-center">Avatar</th>
                                 <th class="text-center">Email</th>
                                 <th class="text-center">Nombre</th>
-                                <th class="w100 text-center">Role</th>
+                                <th class="w140 text-center">Role</th>
                                 <th class="w100 text-center">Auth</th>
                                 <th class="w100 text-center text-nowrap">Acciones</th>
                             </tr>
@@ -48,7 +48,15 @@
                                 </td>
                                 <td>{{usuario.email}}</td>
                                 <td>{{usuario.nombre}}</td>
-                                <td>{{usuario.role}}</td>
+                                <td>
+                                    <select
+                                        class="form-control"
+                                        [(ngModel)]="usuario.role"
+                                        (change)="cambiarRole(usuario)">
+                                        <option value="ADMIN_ROLE">Admin</option>
+                                        <option value="USER_ROLE">User</option>
+                                    </select>
+                                </td>
                                 <td class="text-center">
                                     <span *ngIf="usuario.google" class="label label-danger">Google</span>
                                     <span *ngIf="!usuario.google" class="label label-info">Email</span>

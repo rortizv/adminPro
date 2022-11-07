@@ -2,7 +2,12 @@
     <div class="col-12">
         <div class="card">
             <div class="card-body">
-                <input type="text" class="form-control" placeholder="Buscar usuario...">
+                <input
+                    type="text"
+                    (keyup)="buscar(inputBuscar.value)"
+                    #inputBuscar
+                    class="form-control"
+                    placeholder="Buscar usuario...">
             </div>
         </div>
     </div>
@@ -31,7 +36,7 @@
                                 <th class="w100 text-center">Avatar</th>
                                 <th class="text-center">Email</th>
                                 <th class="text-center">Nombre</th>
-                                <th class="w100 text-center">Role</th>
+                                <th class="w140 text-center">Role</th>
                                 <th class="w100 text-center">Auth</th>
                                 <th class="w100 text-center text-nowrap">Acciones</th>
                             </tr>
@@ -43,7 +48,15 @@
                                 </td>
                                 <td>{{usuario.email}}</td>
                                 <td>{{usuario.nombre}}</td>
-                                <td>{{usuario.role}}</td>
+                                <td>
+                                    <select
+                                        class="form-control"
+                                        [(ngModel)]="usuario.role"
+                                        (change)="cambiarRole(usuario)">
+                                        <option value="ADMIN_ROLE">Admin</option>
+                                        <option value="USER_ROLE">User</option>
+                                    </select>
+                                </td>
                                 <td class="text-center">
                                     <span *ngIf="usuario.google" class="label label-danger">Google</span>
                                     <span *ngIf="!usuario.google" class="label label-info">Email</span>
@@ -57,7 +70,7 @@
                                         <i class="fa fa-pencil text-inverse m-r-10"></i>
                                     </a>
                                     <a
-                                        href="#"
+                                        (click)="eliminarUsuario(usuario)"
                                         data-toggle="tooltip"
                                         data-original-title="Borrar">
                                         <i class="fa fa-close text-danger"></i>
@@ -67,9 +80,11 @@
                         </tbody>
                     </table>
                 </div>
-                <button (click)="cambiarPagina(-5)" class="btn btn-secondary">Anteriores</button>
-                &nbsp;
-                <button (click)="cambiarPagina(5)" class="btn btn-secondary">Siguientes</button>
+                <div *ngIf="inputBuscar.value.length ===0">
+                    <button (click)="cambiarPagina(-5)" class="btn btn-secondary">Anteriores</button>
+                    &nbsp;
+                    <button (click)="cambiarPagina(5)" class="btn btn-secondary">Siguientes</button>
+                </div>
             </div>
         </div>
     </div>

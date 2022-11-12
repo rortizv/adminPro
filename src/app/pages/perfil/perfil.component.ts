@@ -32,22 +32,22 @@ export class PerfilComponent implements OnInit {
 
   actualizarPerfil() {
     this.usuarioService.actualizarPerfil(this.perfilForm.value)
-      .subscribe( resp => {
+      .subscribe( () => {
         const { nombre, email } = this.perfilForm.value;
         this.usuario.nombre = nombre;
         this.usuario.email = email;
-        if(resp) {
+        
           Swal.fire("Usuario actualizado!", "Has actualizado tu usuario satisfactoriamente", "success");
-        } else {
+        }, (err) => {
           Swal.fire("ERROR", "Ha ocurrido un error al intentar actualizar el usuario", "error");
-        }
-      })
+        });
   }
 
   cambiarImagen(file: any) {
     this.imgUpload = file;
 
     if (!file) { return; }
+
     const reader = new FileReader();
     reader.readAsDataURL(file);
 
